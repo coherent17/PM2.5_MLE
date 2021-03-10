@@ -14,8 +14,13 @@ dataT=np.genfromtxt("dataset_T.csv",delimiter=',')
 dataT=np.delete(dataT,[0],axis=1)
 
 #shuffle the data to avoid the strange distribution
-np.random.shuffle(dataX)
-np.random.shuffle(dataT)
+#concatenate the feature and target matrix and shuffle together
+data_temp=np.c_[dataT,dataX]
+np.random.shuffle(data_temp)
+print(data_temp)
+dataT=data_temp[:,0]
+dataX=np.delete(data_temp,[0],axis=1)
+
 
 #split the data into training set and testing set
 def train_test_split(X,Y,test_size):
@@ -48,14 +53,26 @@ T_train=T_train.reshape(len(X_train),)
 plt.plot(x,y,color='red',lw=1.0,ls='-',label="training_predict_value")
 plt.plot(x,T_train,color='blue',lw=1.0,ls='-',label="target_value")
 plt.text(0,1,"RMSE=%.3lf" %(rmse(T_train,y)))
+plt.xlabel("the nth data")
+plt.ylabel("PM2.5")
+plt.title("Linear regression (M=1) training")
+plt.legend()
 plt.show()
 
-
-
+#plot the value of the model predict and the actual model (test part)
+x=np.arange(0,len(X_test))
+y=hypothesis(w.reshape(1,18),X_test).reshape(len(X_test),)
+T_test=T_test.reshape(len(X_test),)
+plt.plot(x,y,color='red',lw=1.0,ls='-',label="testing_predict_value")
+plt.plot(x,T_test,color='blue',lw=1.0,ls='-',label="target_value")
+plt.text(0,1,"RMSE=%.3lf" %(rmse(T_test,y)))
+plt.xlabel("the nth data")
+plt.ylabel("PM2.5")
+plt.title("Linear regression (M=1) testing")
+plt.legend()
+plt.show()
 
 #plot the weight of each features
-# x=np.arange(1,19).reshape(18,1)
-
-# plt.plot(x,w,'b.')
-# plt.show()
-
+x=np.arange(1,19).reshape(18,1)
+plt.plot(x,w,'b.')
+plt.show()
