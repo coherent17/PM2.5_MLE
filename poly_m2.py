@@ -41,7 +41,7 @@ def train_test_split(X,Y,test_size):
     return X_train, X_test, Y_train, Y_test
 
 def linear_regression(X,Y):
-    w=np.matmul(np.matmul(np.linalg.inv(np.matmul(X.T,X)),X.T),Y)
+    w=np.matmul(np.matmul(np.linalg.pinv(np.matmul(X.T,X)),X.T),Y)
     return w
 
 def rmse(a,b):
