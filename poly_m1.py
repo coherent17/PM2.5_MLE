@@ -17,7 +17,6 @@ dataT=np.delete(dataT,[0],axis=1)
 #concatenate the feature and target matrix and shuffle together
 data_temp=np.c_[dataT,dataX]
 np.random.shuffle(data_temp)
-print(data_temp)
 dataT=data_temp[:,0]
 dataX=np.delete(data_temp,[0],axis=1)
 
@@ -85,15 +84,18 @@ rmse_remove=[]
 for i in range(1,18):
     X_train_temp=np.delete(X_train,[i],axis=1)
     w_temp=linear_regression(X_train_temp,T_train)
-    y=hypothesis(w_temp.reshape(1,17),X_train_temp).reshape(len(X_train_temp),)
-    rmse_remove.append(rmse(T_train,y))
+    y_temp=hypothesis(w_temp.reshape(1,17),X_train_temp).reshape(len(X_train_temp),)
+    rmse_remove.append(rmse(T_train,y_temp))
 print(rmse_remove)
 #plot the graph
 x=np.arange(0,17)
-plt.plot(x,rmse_remove,"r.")
+y=hypothesis(w.reshape(1,18),X_train).reshape(len(X_train),)
+rmse_org=[rmse(T_train,y)]*17
+plt.plot(x,rmse_remove,"r.",label='The rmse without X feature')
+plt.plot(x,rmse_org,'b.',label='rmse with all features')
 labels=["AMB_TEMP","CH4","CO","NMHC","NO","NO2","NOx","O3","PM10","RAINFALL","RH","SO2","THC","WD_HR","WIND_DIREC","WIND_SPEED","WS_HR"]
 plt.xticks(x,labels,rotation='vertical')
 plt.ylabel("rmse")
-plt.title("remove the feature")
+plt.title("Linear regresion(M=1)--the impact on remove one feature")
+plt.legend()
 plt.show()
-    
