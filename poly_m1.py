@@ -32,8 +32,6 @@ def train_test_split(X,Y,test_size):
     Y_test=Y_test.reshape(len(Y_test),1)
     return X_train, X_test, Y_train, Y_test
 
-X_train,X_test,T_train,T_test = train_test_split(dataX,dataT,0.2)
-
 def linear_regression(X,Y):
     w=np.matmul(np.matmul(np.linalg.inv(np.matmul(X.T,X)),X.T),Y)
     return w
@@ -44,6 +42,7 @@ def rmse(a,b):
 def hypothesis(w,X):
     return np.matmul(w,np.transpose(X))
 
+X_train,X_test,T_train,T_test = train_test_split(dataX,dataT,0.2)
 w=linear_regression(X_train,T_train)
 
 #plot the value of the model predict and the actual model (train part)
@@ -73,6 +72,16 @@ plt.legend()
 plt.show()
 
 #plot the weight of each features
-x=np.arange(1,19).reshape(18,1)
+x=np.arange(0,18).reshape(18,)
 plt.plot(x,w,'b.')
+labels=["const","AMB_TEMP","CH4","CO","NMHC","NO","NO2","NOx","O3","PM10","RAINFALL","RH","SO2","THC","WD_HR","WIND_DIREC","WIND_SPEED","WS_HR"]
+plt.xticks(x,labels,rotation='vertical')
+plt.ylabel("weight")
+plt.title("weights versus features")
 plt.show()
+
+#remove each feature will how to affect the model?
+rmse_remove=[]
+for i in range(1,18):
+    X_train_temp=np.delete(X_train,i,1)
+    
