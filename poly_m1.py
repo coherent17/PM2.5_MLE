@@ -83,5 +83,17 @@ plt.show()
 #remove each feature will how to affect the model?
 rmse_remove=[]
 for i in range(1,18):
-    X_train_temp=np.delete(X_train,i,1)
+    X_train_temp=np.delete(X_train,[i],axis=1)
+    w_temp=linear_regression(X_train_temp,T_train)
+    y=hypothesis(w_temp.reshape(1,17),X_train_temp).reshape(len(X_train_temp),)
+    rmse_remove.append(rmse(T_train,y))
+print(rmse_remove)
+#plot the graph
+x=np.arange(0,17)
+plt.plot(x,rmse_remove,"r.")
+labels=["AMB_TEMP","CH4","CO","NMHC","NO","NO2","NOx","O3","PM10","RAINFALL","RH","SO2","THC","WD_HR","WIND_DIREC","WIND_SPEED","WS_HR"]
+plt.xticks(x,labels,rotation='vertical')
+plt.ylabel("rmse")
+plt.title("remove the feature")
+plt.show()
     
