@@ -86,7 +86,6 @@ for i in range(1,18):
     w_temp=linear_regression(X_train_temp,T_train)
     y_temp=hypothesis(w_temp.reshape(1,17),X_train_temp).reshape(len(X_train_temp),)
     rmse_remove.append(rmse(T_train,y_temp))
-print(rmse_remove)
 #plot the graph
 x=np.arange(0,17)
 y=hypothesis(w.reshape(1,18),X_train).reshape(len(X_train),)
@@ -98,4 +97,23 @@ plt.xticks(x,labels,rotation='vertical')
 plt.ylabel("rmse")
 plt.title("Linear regresion(M=1)--the impact on remove one feature")
 plt.legend()
+plt.show()
+
+
+#change the percentage of the training dataset to see the rmse
+list=[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8]
+rmse_per=[]
+for i in list:
+    X_train,X_test,T_train,T_test = train_test_split(dataX,dataT,i)
+    w=linear_regression(X_train,T_train)
+    T_test=T_test.reshape(len(X_test),)
+    y_per=hypothesis(w.reshape(1,18),X_test).reshape(len(X_test),)
+    rmse_per.append(rmse(T_test,y_per))
+
+#visualize
+x=list
+plt.plot(x,rmse_per,color='red',lw=1.0,ls='-')
+plt.title("testing rmse in different percentage of training set(M=1)")
+plt.xlabel("the percentage of testing dataset")
+plt.ylabel("rmse")
 plt.show()

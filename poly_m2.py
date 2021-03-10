@@ -52,7 +52,6 @@ def hypothesis(w,X):
 
 X_train,X_test,T_train,T_test = train_test_split(dataX,dataT,0.2)
 w=linear_regression(X_train,T_train)
-print(w.shape)
 
 #plot the value of the model predict and the actual model (train part)
 x=np.arange(0,len(X_train))
@@ -79,4 +78,22 @@ plt.xlabel("the nth data")
 plt.ylabel("PM2.5")
 plt.title("Linear regression (M=2) testing")
 plt.legend()
+plt.show()
+
+#change the percentage of the training dataset to see the rmse
+list=[0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8]
+rmse_per=[]
+for i in list:
+    X_train,X_test,T_train,T_test = train_test_split(dataX,dataT,i)
+    w=linear_regression(X_train,T_train)
+    T_test=T_test.reshape(len(X_test),)
+    y_per=hypothesis(w.reshape(1,171),X_test).reshape(len(X_test),)
+    rmse_per.append(rmse(T_test,y_per))
+
+#visualize
+x=list
+plt.plot(x,rmse_per,color='red',lw=1.0,ls='-')
+plt.title("testing rmse in different percentage of training set(M=2)")
+plt.xlabel("the percentage of testing dataset")
+plt.ylabel("rmse")
 plt.show()
