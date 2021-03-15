@@ -13,19 +13,19 @@ dataT=np.delete(dataT,[0],axis=1)
 
 #shuffle the data to avoid the strange distribution
 #concatenate the feature and target matrix and shuffle together
-data_temp=np.c_[dataT,dataX]
-np.random.shuffle(data_temp)
-dataT=data_temp[:,0]
-dataX=np.delete(data_temp,[0],axis=1)
+def shuffle(dataX,dataT):
+    data_temp=np.c_[dataT,dataX]
+    np.random.shuffle(data_temp)
+    dataT=data_temp[:,0]
+    dataX=np.delete(data_temp,[0],axis=1)
+    return dataX,dataT
 
-#calculate the mean and the std of the each column
-mean=[]
-std=[]
-for i in range(0,17):
-    mean.append(np.mean(dataX[:,i]))
-    std.append(np.std(dataX[:,i]))
-
-def Gaussian(X,mean,std):
+def Gaussian(X):
+    mean=[]
+    std=[]
+    for i in range(0,17):
+        mean.append(np.mean(X[:,i]))
+        std.append(np.std(X[:,i]))
     dataX_g=np.zeros(np.shape(X))
     for i in range(0,len(X)):
         for j in range(0,17):
@@ -52,7 +52,8 @@ def hypothesis(w,X):
 def rmse(a,b):
     return math.sqrt(np.sum((a-b)**2)/len(a))
 
-dataX_g=Gaussian(dataX,mean,std)
+dataX,dataT=shuffle(dataX,dataT)
+dataX_g=Gaussian(dataX)
 temp=np.ones((len(dataX_g),1))
 dataX_g=np.c_[temp,dataX_g]
 
