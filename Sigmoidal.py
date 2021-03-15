@@ -101,3 +101,32 @@ plt.ylabel("PM2.5")
 plt.title("Sigmoidal testing")
 plt.legend()
 plt.show()
+
+#plot the weight of each features
+x=np.arange(0,18).reshape(18,)
+plt.plot(x,w,'b.')
+labels=["const","AMB_TEMP","CH4","CO","NMHC","NO","NO2","NOx","O3","PM10","RAINFALL","RH","SO2","THC","WD_HR","WIND_DIREC","WIND_SPEED","WS_HR"]
+plt.xticks(x,labels,rotation='vertical')
+plt.ylabel("weight")
+plt.title("weights versus features(Sigmoidal)")
+plt.show()
+
+#remove each feature will how to affect the model?
+rmse_remove=[]
+for i in range(1,18):
+    X_train_temp=np.delete(X_train,[i],axis=1)
+    w_temp=linear_regression(X_train_temp,T_train)
+    y_temp=hypothesis(w_temp.reshape(1,17),X_train_temp).reshape(len(X_train_temp),)
+    rmse_remove.append(rmse(T_train,y_temp))
+#plot the graph
+x=np.arange(0,17)
+y=hypothesis(w.reshape(1,18),X_train).reshape(len(X_train),)
+rmse_org=[rmse(T_train,y)]*17
+plt.plot(x,rmse_remove,"r.",label='The rmse without X feature')
+plt.plot(x,rmse_org,'b.',label='rmse with all features')
+labels=["AMB_TEMP","CH4","CO","NMHC","NO","NO2","NOx","O3","PM10","RAINFALL","RH","SO2","THC","WD_HR","WIND_DIREC","WIND_SPEED","WS_HR"]
+plt.xticks(x,labels,rotation='vertical')
+plt.ylabel("rmse")
+plt.title("Linear regresion(Sigmoidal)--the impact on remove one feature")
+plt.legend()
+plt.show()
