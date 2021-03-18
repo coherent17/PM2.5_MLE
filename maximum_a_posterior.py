@@ -63,8 +63,8 @@ def train_test_split(X,Y,test_size):
     Y_test=Y_test.reshape(len(Y_test),1)
     return X_train, X_test, Y_train, Y_test
 
-def linear_regression(X,Y,lamda):
-    w=np.linalg.inv(X.T.dot(X)+lamda*np.eye(X.shape[1])).dot(X.T).dot(Y)
+def linear_regression(X,Y):
+    w=np.linalg.inv(X.T.dot(X)+0.0001*np.eye(X.shape[1])).dot(X.T).dot(Y)
     return w
 
 def hypothesis(w,X):
@@ -81,7 +81,7 @@ temp=np.ones((len(dataX_g),1))
 dataX_g=np.c_[temp,dataX_g]
 
 X_train,X_test,T_train,T_test = train_test_split(dataX_g,dataT,0.2)
-w=linear_regression(X_train,T_train,0.0001)
+w=linear_regression(X_train,T_train)
 
 
 #plot the value of the model predict and the actual model (train part)
@@ -116,14 +116,14 @@ plt.plot(x,w,'b.')
 labels=["const","AMB_TEMP","CH4","CO","NMHC","NO","NO2","NOx","O3","PM10","RAINFALL","RH","SO2","THC","WD_HR","WIND_DIREC","WIND_SPEED","WS_HR"]
 plt.xticks(x,labels,rotation='vertical')
 plt.ylabel("weight")
-plt.title("weights versus features(Sigmoidal)")
+plt.title("weights versus features(MAP_Gaussain)")
 plt.show()
 
 #remove each feature will how to affect the model?
 rmse_remove=[]
 for i in range(1,18):
     X_train_temp=np.delete(X_train,[i],axis=1)
-    w_temp=linear_regression(X_train_temp,T_train,0.0001)
+    w_temp=linear_regression(X_train_temp,T_train)
     y_temp=hypothesis(w_temp.reshape(1,17),X_train_temp).reshape(len(X_train_temp),)
     rmse_remove.append(rmse(T_train,y_temp))
 #plot the graph
@@ -135,6 +135,6 @@ plt.plot(x,rmse_org,'b.',label='rmse with all features')
 labels=["AMB_TEMP","CH4","CO","NMHC","NO","NO2","NOx","O3","PM10","RAINFALL","RH","SO2","THC","WD_HR","WIND_DIREC","WIND_SPEED","WS_HR"]
 plt.xticks(x,labels,rotation='vertical')
 plt.ylabel("rmse")
-plt.title("Linear regresion(Sigmoidal)--the impact on remove one feature")
+plt.title("Linear regresion(MAP_Gaussian)--the impact on remove one feature")
 plt.legend()
 plt.show()
