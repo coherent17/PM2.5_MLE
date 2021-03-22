@@ -69,9 +69,10 @@ def rmse(a,b):
     return math.sqrt(np.sum((a-b)**2)/len(a))
 
 
-
+dataX,dataT=normalization(dataX,dataT)
 dataX,dataT=shuffle(dataX,dataT)
 dataX_s=Sigmoidal(dataX)
+print(dataX_s)
 temp=np.ones((len(dataX_s),1))
 dataX_s=np.c_[temp,dataX_s]
 

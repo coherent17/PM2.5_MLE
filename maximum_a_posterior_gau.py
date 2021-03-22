@@ -74,7 +74,7 @@ def rmse(a,b):
     return math.sqrt(np.sum((a-b)**2)/len(a))
 
 
-
+dataX,dataT=normalization(dataX,dataT)
 dataX,dataT=shuffle(dataX,dataT)
 dataX_g=Gaussian(dataX)
 temp=np.ones((len(dataX_g),1))
@@ -130,7 +130,7 @@ for i in range(1,18):
 x=np.arange(0,17)
 y=hypothesis(w.reshape(1,18),X_train).reshape(len(X_train),)
 rmse_org=[rmse(T_train,y)]*17
-plt.plot(x,rmse_remove,"r.",label='The rmse without X feature')
+plt.plot(x,rmse_remove,"ro",label='The rmse without X feature')
 plt.plot(x,rmse_org,'b.',label='rmse with all features')
 labels=["AMB_TEMP","CH4","CO","NMHC","NO","NO2","NOx","O3","PM10","RAINFALL","RH","SO2","THC","WD_HR","WIND_DIREC","WIND_SPEED","WS_HR"]
 plt.xticks(x,labels,rotation='vertical')
