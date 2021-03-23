@@ -34,6 +34,13 @@ def normalization(dataX,dataT):
         dataT_n[i]=(dataT[i]-mean_T)/std_T
     return dataX,dataT
 
+def Sigmoidal(X):
+    dataX_s=np.zeros(np.shape(X))
+    for i in range(0,len(X)):
+        for j in range(0,17):
+            dataX_s[i,j]=math.exp(X[i,j])/(math.exp(X[i,j])+1)
+    return dataX_s
+
 #shuffle the data to avoid the strange distribution
 #concatenate the feature and target matrix and shuffle together
 def shuffle(dataX,dataT):
@@ -63,8 +70,9 @@ def rmse(a,b):
     return math.sqrt(np.sum((a-b)**2)/len(a))
 
 dataX,dataT=normalization(dataX,dataT)
-temp=np.array([1]*len(dataX))
-dataX=np.c_[temp,dataX]
+dataX_s=Sigmoidal(dataX)
+temp=np.array([1]*len(dataX_s))
+dataX=np.c_[temp,dataX_s]
 dataX,dataT=shuffle(dataX,dataT)
 
 #N_fold cross validation
@@ -115,7 +123,7 @@ x=np.arange(0,10)
 plt.plot(x,rmse_org,label="rmse org")
 plt.plot(x,rmse_D5,label="rmse D5")
 plt.plot(x,rmse_D12,label="rmse D12")
-plt.title("linear model by different dimension of feature (m1)")
+plt.title("linear model by different dimension of feature (Sigmoidal)")
 plt.xlabel("N-fold")
 plt.ylabel("rmse")
 plt.legend()
