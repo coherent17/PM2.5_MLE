@@ -7,19 +7,39 @@ import random
 #feature data
 dataX=np.genfromtxt("dataset_X.csv",delimiter=',')
 dataX=np.delete(dataX,[0],axis=1)
-temp=np.array([1]*len(dataX))
-dataX=np.c_[temp,dataX]
 #target data
 dataT=np.genfromtxt("dataset_T.csv",delimiter=',')
 dataT=np.delete(dataT,[0],axis=1)
 
 #shuffle the data to avoid the strange distribution
 #concatenate the feature and target matrix and shuffle together
-data_temp=np.c_[dataT,dataX]
-np.random.shuffle(data_temp)
-dataT=data_temp[:,0]
-dataX=np.delete(data_temp,[0],axis=1)
+def shuffle(dataX,dataT):
+    data_temp=np.c_[dataT,dataX]
+    np.random.shuffle(data_temp)
+    dataT=data_temp[:,0]
+    dataX=np.delete(data_temp,[0],axis=1)
+    return dataX,dataT
 
+def normalization(dataX,dataT):
+    #features
+    mean_X=[]
+    std_X=[]
+    for i in range(0,17):
+        mean_X.append(np.mean(dataX[:,i]))
+        std_X.append(np.std(dataX[:,i]))
+
+    dataX_n=np.zeros(np.shape(dataX))
+    for i in range(0,len(dataX)):
+        for j in range(0,17):
+            dataX_n[i,j]=(dataX[i,j]-mean_X[j])/std_X[j]
+    dataX=dataX_n
+    #target
+    mean_T=np.mean(dataT[:])
+    std_T=np.std(dataT[:])
+    dataT_n=np.zeros(np.shape(dataT))
+    for i in range(0,len(dataT)):
+        dataT_n[i]=(dataT[i]-mean_T)/std_T
+    return dataX,dataT
 
 #split the data into training set and testing set
 def train_test_split(X,Y,test_size):
@@ -41,6 +61,10 @@ def rmse(a,b):
 def hypothesis(w,X):
     return np.matmul(w,np.transpose(X))
 
+dataX,dataT=normalization(dataX,dataT)
+dataX,dataT=shuffle(dataX,dataT)
+temp=np.array([1]*len(dataX))
+dataX=np.c_[temp,dataX]
 X_train,X_test,T_train,T_test = train_test_split(dataX,dataT,0.2)
 w=linear_regression(X_train,T_train)
 
