@@ -89,12 +89,12 @@ for i in range(10):
     X_train,X_test,T_train,T_test=train_test_split(dataX,dataT,0.1)
 
     #get the D5 training and testing dataset
-    X_train_D5=np.delete(X_train,[1,2,4,5,6,7,8,12,13,15,16,17],axis=1)
-    X_test_D5=np.delete(X_test,[1,2,4,5,6,7,8,12,13,15,16,17],axis=1)
+    X_train_D5=np.delete(X_train,[2,3,4,6,7,8,11,13,14,15,16,17],axis=1)
+    X_test_D5=np.delete(X_test,[2,3,4,6,7,8,11,13,14,15,16,17],axis=1)
 
     #get the D12 training and testing dataset
-    X_train_D12=np.delete(X_train,[1,5,6,7,13],axis=1)
-    X_test_D12=np.delete(X_test,[1,5,6,7,13],axis=1)
+    X_train_D12=np.delete(X_train,[2,8,11,16,17],axis=1)
+    X_test_D12=np.delete(X_test,[2,8,11,16,17],axis=1)
 
     #original linear regression part
     w_org=linear_regression(X_train,T_train)
@@ -128,7 +128,7 @@ x=np.arange(0,10)
 plt.plot(x,rmse_org,label="rmse org")
 plt.plot(x,rmse_D5,label="rmse D5")
 plt.plot(x,rmse_D12,label="rmse D12")
-plt.title("linear model by different dimension of feature (Sigmoidal)")
+plt.title("linear model by different dimension of feature (Gaussian)")
 plt.xlabel("N-fold")
 plt.ylabel("rmse")
 plt.legend()

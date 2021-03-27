@@ -20,6 +20,28 @@ def shuffle(dataX,dataT):
     dataX=np.delete(data_temp,[0],axis=1)
     return dataX,dataT
 
+#normalize:
+def normalization(dataX,dataT):
+    #features
+    mean_X=[]
+    std_X=[]
+    for i in range(0,17):
+        mean_X.append(np.mean(dataX[:,i]))
+        std_X.append(np.std(dataX[:,i]))
+
+    dataX_n=np.zeros(np.shape(dataX))
+    for i in range(0,len(dataX)):
+        for j in range(0,17):
+            dataX_n[i,j]=(dataX[i,j]-mean_X[j])/std_X[j]
+    dataX=dataX_n
+    #target
+    mean_T=np.mean(dataT[:])
+    std_T=np.std(dataT[:])
+    dataT_n=np.zeros(np.shape(dataT))
+    for i in range(0,len(dataT)):
+        dataT_n[i]=(dataT[i]-mean_T)/std_T
+    return dataX,dataT
+
 def Gaussian(X):
     mean=[]
     std=[]
@@ -52,6 +74,7 @@ def hypothesis(w,X):
 def rmse(a,b):
     return math.sqrt(np.sum((a-b)**2)/len(a))
 
+dataX,dataT=normalization(dataX,dataT)
 dataX,dataT=shuffle(dataX,dataT)
 dataX_g=Gaussian(dataX)
 temp=np.ones((len(dataX_g),1))
