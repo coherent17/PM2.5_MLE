@@ -39,7 +39,7 @@ def normalization(dataX,dataT):
 def shuffle(dataX,dataT):
     data_temp=np.c_[dataT,dataX]
     np.random.shuffle(data_temp)
-    dataT=data_temp[:,0]
+    dataT=data_temp[:,0].reshape(1096,1)
     dataX=np.delete(data_temp,[0],axis=1)
     return dataX,dataT
 
@@ -104,9 +104,9 @@ for i in range(10):
     dataX=np.delete(dataX,ind,axis=0)
     dataX=np.c_[X_test.T,dataX.T].T
     dataT=np.delete(dataT,ind,axis=0)
-    dataT=np.hstack((T_test.T,dataT.T)).T
+    T_test=T_test.reshape(110,1)
+    dataT=np.vstack((T_test,dataT))
     
-
 print(rmse_org)
 print(rmse_D5)
 print(rmse_D12)
