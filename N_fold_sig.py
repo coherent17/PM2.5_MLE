@@ -75,6 +75,7 @@ temp=np.array([1]*len(dataX_s))
 dataX=np.c_[temp,dataX_s]
 dataX,dataT=shuffle(dataX,dataT)
 
+
 #N_fold cross validation
 rmse_org=[]
 rmse_D5=[]
@@ -118,6 +119,7 @@ for i in range(10):
 print(rmse_org)
 print(rmse_D5)
 print(rmse_D12)
+
 
 x=np.arange(0,10)
 plt.plot(x,rmse_org,label="rmse org")
