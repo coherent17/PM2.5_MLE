@@ -37,7 +37,7 @@ def normalization(dataX,dataT):
 #concatenate the feature and target matrix and shuffle together
 def shuffle(dataX,dataT):
     data_temp=np.c_[dataT,dataX]
-    np.random.shuffle(data_temp)
+    # np.random.shuffle(data_temp)
     dataT=data_temp[:,0]
     dataX=np.delete(data_temp,[0],axis=1)
     return dataX,dataT
@@ -64,7 +64,7 @@ def train_test_split(X,Y,test_size):
     return X_train, X_test, Y_train, Y_test
 
 def linear_regression(X,Y):
-    w=np.linalg.inv(X.T.dot(X)+0.0001*np.eye(X.shape[1])).dot(X.T).dot(Y)
+    w=np.linalg.inv(X.T.dot(X)+0.5*np.eye(X.shape[1])).dot(X.T).dot(Y)
     return w
 
 def hypothesis(w,X):

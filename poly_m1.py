@@ -15,7 +15,7 @@ dataT=np.delete(dataT,[0],axis=1)
 #concatenate the feature and target matrix and shuffle together
 def shuffle(dataX,dataT):
     data_temp=np.c_[dataT,dataX]
-    np.random.shuffle(data_temp)
+    # np.random.shuffle(data_temp)
     dataT=data_temp[:,0]
     dataX=np.delete(data_temp,[0],axis=1)
     return dataX,dataT
